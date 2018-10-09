@@ -29,3 +29,10 @@ GPIO.setup(SPICS, GPIO.OUT)
 GPIO.setup(start, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
+
+#Global Variables
+int log[16]
+int dir[16]
+
+# 0 is a left movement 
+# 1 is a right movement
