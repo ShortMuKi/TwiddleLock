@@ -34,7 +34,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 #int log[16]
 #int dir[16]
 values = [0]*8
-
+direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
 def potconvert(Vals,dec):
@@ -46,8 +46,8 @@ def direction (change):
 		print("right")
 	elif (change <0):
 		print("left")
-		
-	
+	while (change != 0):
+		time.sleep(0.2)
 try:
   pot = 0
   while True:
@@ -55,8 +55,8 @@ try:
       pre_pot = pot
       pot = potconvert(values[0],2)
       change = pot - pre_pot; 
-      print(pot);
-      print(pre_pot);
+      #print(pot);
+      #print(pre_pot);
       direction(change);
 	
       time.sleep(1);
