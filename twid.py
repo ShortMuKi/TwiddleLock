@@ -45,7 +45,7 @@ def direction (change):
 	if (change > 0):
 		print("right")
 	elif (change <0):
-		pringt("left")
+		print("left")
 		
 	
 try:
