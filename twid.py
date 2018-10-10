@@ -47,3 +47,7 @@ try:
       pot = potconvert(values[0],1)
       print(pot)
       time.sleep(500)
+
+	
+finally:
+    GPIO.cleanup()
