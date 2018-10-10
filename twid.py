@@ -36,3 +36,14 @@ int dir[16]
 
 # 0 is a left movement 
 # 1 is a right movement
+def potconvert(Vals,dec):
+	volts = (Vals*3.3/float(1023))
+	volts = round(volts,dec)
+	return volts
+
+try:
+  while True:
+      values[0] = mcp.read_adc(0)
+      pot = potconvert(values[0],1)
+      print(pot)
+      time.sleep(500)
