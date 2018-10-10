@@ -45,6 +45,7 @@ def potconvert(Vals,dec):
 	return volts
 def direction (change):
 	global count
+	global dir
 	if (change > 0.1):
 		print("right")
 		#dir.popleft()
