@@ -65,7 +65,7 @@ try:
       #print(pot);
       #print(pre_pot);
       direction(change);
-      if (dir == code && count == 2 ):
+      if (dir == code & count == 2 ):
 	print('yay')
 	dir.clear()
       print(dir)
