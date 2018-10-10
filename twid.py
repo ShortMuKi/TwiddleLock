@@ -44,17 +44,18 @@ def potconvert(Vals,dec):
 	volts = round(volts,dec)
 	return volts
 def direction (change):
+	global count
 	if (change > 0):
 		print("right")
 		dir.append(1)
-		global count = 0
+		count = 0
 	elif (change <0):
 		print("left")
 		dir.append(0)
-		global count =0
+		count =0
 	elif (change == 0):
 		print("no change")
-		global count = global count+1
+		count = count+1
 try:
   pot = 0
   while True:
