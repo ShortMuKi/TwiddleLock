@@ -69,9 +69,9 @@ try:
 	print('yay')
 	dir.clear()
       print(dir)
-      time.sleep(1);
-			
-
-	
+      time.sleep(1);			
+      if (len(dir) > len(code)):
+	dir.clear();
+	print ("failed")
 finally:
     GPIO.cleanup()
