@@ -44,6 +44,7 @@ def potconvert(Vals,dec):
 	volts = round(volts,dec)
 	return volts
 def direction (change):
+	global count
 	if (change > 0):
 		print("right")
 		dir.append(1)
@@ -54,7 +55,7 @@ def direction (change):
 		count =0
 	elif (change == 0):
 		print("no change")
-		count =count+1
+		count = count+1
 try:
   pot = 0
   while True:
@@ -65,7 +66,7 @@ try:
       #print(pot);
       #print(pre_pot);
       direction(change);
-      if (dir == code && count == 2 ):
+      if (dir == code  and count == 2 ):
 	print('yay')
 	dir.clear()
       print(dir)
