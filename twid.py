@@ -45,15 +45,15 @@ def potconvert(Vals,dec):
 	return volts
 def direction (change):
 	global count
-	if (change > 0):
+	if (change > 0.2):
 		print("right")
 		dir.append(1)
 		count = 0
-	elif (change <0):
+	elif (change <-0.2):
 		print("left")
 		dir.append(0)
 		count =0
-	elif (change == 0):
+	elif (change<0.2 or change >-0.2 ):
 		print("no change")
 		count = count+1
 try:
