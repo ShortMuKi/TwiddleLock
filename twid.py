@@ -56,6 +56,12 @@ def direction (change):
 	elif (change<0.1 or change >-0.1 ):
 		print("no change")
 		count = count+1
+
+		
+def s(channel):
+	
+GPIO.add_event_detect(st, GPIO.FALLING, callback=s, bouncetime=200)	
+
 try:
   pot = 0
   while True:
