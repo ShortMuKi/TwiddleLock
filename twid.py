@@ -67,7 +67,7 @@ try:
       #print(pre_pot);
       direction(change);
       if (count == 2):
-	if (dir[(len(dir)-1] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
+	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
 		print('yay')
 		dir = [];
 	else :
