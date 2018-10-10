@@ -47,14 +47,14 @@ def direction (change):
 	if (change > 0):
 		print("right")
 		dir.append(1)
-		count = 0
+		global count = 0
 	elif (change <0):
 		print("left")
 		dir.append(0)
-		count =0
+		global count =0
 	elif (change == 0):
 		print("no change")
-		count =count+1
+		global count = global count+1
 try:
   pot = 0
   while True:
@@ -65,7 +65,7 @@ try:
       #print(pot);
       #print(pre_pot);
       direction(change);
-      if (dir == code & count == 2 ):
+      if (dir == code  & count == 2 ):
 	print('yay')
 	dir.clear()
       print(dir)
