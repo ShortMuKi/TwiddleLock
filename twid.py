@@ -33,6 +33,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 #Global Variables
 #int log[16]
 #int dir[16]
+values = []
 
 # 0 is a left movement 
 # 1 is a right movement
