@@ -46,8 +46,8 @@ def direction (change):
 		print("right")
 	elif (change <0):
 		print("left")
-	while (change != 0):
-		time.sleep(0.2)
+	elif (change == 0):
+		print("no change")
 try:
   pot = 0
   while True:
