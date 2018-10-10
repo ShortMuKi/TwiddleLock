@@ -49,6 +49,7 @@ def direction (change):
 		
 	
 try:
+  pot = 0
   while True:
       values[0] = mcp.read_adc(0)
       pre_pot = pot
