@@ -47,12 +47,14 @@ def direction (change):
 	global count
 	if (change > 0.1):
 		print("right")
-		dir.popleft()
+		#dir.popleft()
+		dir = dir[1:]
 		dir.append(1)
 		count = 0
 	elif (change <-0.1):
 		print("left")
-		dir.popleft()
+		#dir.popleft()
+		dir = dir[1:]
 		dir.append(0)
 		count =0
 	elif (change<0.1 or change >-0.1 ):
