@@ -47,7 +47,7 @@ try:
       values[0] = mcp.read_adc(0)
       pot = potconvert(values[0],1)
       print(pot)
-      time.sleep(500)
+      time.sleep(5)
 
 	
 finally:
