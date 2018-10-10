@@ -63,6 +63,7 @@ try:
       direction(change);
       if (dir == code):
 	print('yay')
+      print(dir)
       time.sleep(1);
 			
 
