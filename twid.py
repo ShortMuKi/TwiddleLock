@@ -41,13 +41,25 @@ def potconvert(Vals,dec):
 	volts = (Vals*3.3/float(1023))
 	volts = round(volts,dec)
 	return volts
-
+def direction (change):
+	if (change > 0):
+		print("right")
+	elif (change <0):
+		pringt("left")
+		
+	
 try:
   while True:
       values[0] = mcp.read_adc(0)
-      pot = potconvert(values[0],1)
-      print(pot)
-      time.sleep(5)
+      pre_pot = pot
+      pot = potconvert(values[0],2)
+      change = pot - pre_pot; 
+      print(pot);
+      print(pre_pot);
+      direction(change);
+	
+      time.sleep(1);
+			
 
 	
 finally:
