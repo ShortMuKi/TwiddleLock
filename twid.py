@@ -33,7 +33,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 #Global Variables
 #int log[16]
 code =[1,1,0];
-dir = [0,0,0]
+dir = [0]*16;
 values = [0]*8
 count = 0;
 #direction =[0]
@@ -47,20 +47,21 @@ def direction (change):
 	global count
 	if (change > 0.1):
 		print("right")
+		dir.popleft()
 		dir.append(1)
 		count = 0
 	elif (change <-0.1):
 		print("left")
+		dir.popleft()
 		dir.append(0)
 		count =0
 	elif (change<0.1 or change >-0.1 ):
 		print("no change")
 		count = count+1
 
-		
+
 def s(channel):
-	
-GPIO.add_event_detect(st, GPIO.FALLING, callback=s, bouncetime=200)	
+	GPIO.add_event_detect(st, GPIO.FALLING, callback=s, bouncetime=200)	
 
 try:
   pot = 0
@@ -75,10 +76,10 @@ try:
       if (count == 2):
 	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
 		print('yay')
-		dir = [];
+		dir = [0]*16;
 	else :
 		print ('Failed')
-		dir = [];
+		dir = [0]*16;
       print(dir)
       time.sleep(1);			
 
