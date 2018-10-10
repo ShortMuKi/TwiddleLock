@@ -32,9 +32,10 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 
 #Global Variables
 #int log[16]
-#int dir[16]
+code =[1,1,0];
+dir = [0]*16
 values = [0]*8
-direction =[0]
+#direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
 def potconvert(Vals,dec):
@@ -44,8 +45,10 @@ def potconvert(Vals,dec):
 def direction (change):
 	if (change > 0):
 		print("right")
+		dir.append(1)
 	elif (change <0):
 		print("left")
+		dir.append(0)
 	elif (change == 0):
 		print("no change")
 try:
@@ -58,7 +61,8 @@ try:
       #print(pot);
       #print(pre_pot);
       direction(change);
-	
+      if (dir == code):
+	print('yay')
       time.sleep(1);
 			
 
