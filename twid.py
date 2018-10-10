@@ -35,6 +35,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 code =[1,1,0];
 dir = []*16
 values = [0]*8
+count = 0;
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
@@ -46,11 +47,14 @@ def direction (change):
 	if (change > 0):
 		print("right")
 		dir.append(1)
+		count = 0
 	elif (change <0):
 		print("left")
 		dir.append(0)
+		count =0
 	elif (change == 0):
 		print("no change")
+		count =count+1
 try:
   pot = 0
   while True:
@@ -61,8 +65,9 @@ try:
       #print(pot);
       #print(pre_pot);
       direction(change);
-      if (dir == code):
+      if (dir == code && count == 2 ):
 	print('yay')
+	dir.clear()
       print(dir)
       time.sleep(1);
 			
