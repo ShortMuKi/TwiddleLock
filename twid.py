@@ -68,11 +68,11 @@ try:
       direction(change);
       if (dir == code  and count == 2 ):
 	print('yay')
-	dir.clear()
+	dir = []
       print(dir)
       time.sleep(1);			
       if (len(dir) > len(code)):
-	dir.clear();
+	dir = [];
 	print ("failed")
 finally:
     GPIO.cleanup()
