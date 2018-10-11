@@ -142,7 +142,17 @@ try:
 		print ('Failed')
 		dir = [0]*16;
       print(master)
-      time.sleep(1);
+      if(stop ==1)
+	for i in range (2,place):
+		start = master.index(i)
+		finish = master.index(i+1)
+		duration = (finish -start)*100
+		dur=dur[1:]
+		dur.append(duration)
+		val = master[(finsh -1)]
+		dir = dir[1:]
+		dir.append(val)
+      time.sleep(0.01);
 	
 finally:
     GPIO.cleanup()
