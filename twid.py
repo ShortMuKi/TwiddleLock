@@ -113,12 +113,7 @@ try:
       direction(change);
       if (count == 20):
 	stop = 1
-	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
-		print('yay')
-		dir = [0]*16;
-	else :
-		print ('Failed')
-		dir = [0]*16;
+	
 #      print(master)
       if(stop ==1):
 	for i in range (2,place-1):
@@ -132,6 +127,14 @@ try:
 		dir.append(val)
 	print(dir)
 	print(dur)
+	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
+		print('yay')
+		dir = [0]*16;
+	else :
+		print ('Failed')
+		dir = [0]*16;
+	
+	
       time.sleep(0.1);
 	
 finally:
