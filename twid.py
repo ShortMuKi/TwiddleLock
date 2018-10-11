@@ -67,7 +67,7 @@ def direction (change):
 
 
 
-GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
   pot = 0
