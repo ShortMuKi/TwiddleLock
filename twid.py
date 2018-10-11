@@ -1,3 +1,4 @@
+import pygame
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 import time
@@ -7,6 +8,8 @@ import sys
 import subprocess as sp
 
 GPIO.setmode(GPIO.BCM)
+pygame.mixer.init()
+pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
 
 #pin Definition
 
@@ -109,7 +112,9 @@ def directionL(change):
 		dur.append(duration)
 		
 def s(channel):
-	os.system('Apple Pay Success Sound Effect.wav')
+	pygame.mixer.music.play()
+	while pygame.mixer.music.get_busy() == True:
+		continue
 
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
