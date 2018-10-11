@@ -41,8 +41,7 @@ values = [0]*8
 count = 0;
 duration = 0;
 change  = 0.0;
-pre_pot = 0.1;
-int(pre_pot)
+pre_pot = 0.0;
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
@@ -59,8 +58,8 @@ def getpot():
 	values[0] = mcp.read_adc(0);
 	pot = potconvert(values[0],2);
 	change = pot-pre_pot;
-
-
+	print (" this is change",change)
+	return change
 def direction (change):
 	global count
 	global dir
@@ -81,7 +80,9 @@ def direction (change):
 		count = count+1
 def directionR (change):
 	duration = 0
-	while (change > 0.05):
+	global dir
+	global dur
+	while (change > 0.01):
 		time.sleep(1)
 		print("right")
 		duration  = duration + 10
@@ -92,9 +93,11 @@ def directionR (change):
 		dur = dur[1:]
 		dur.append(duration)
 
-def directionL (change):
+def directionL(change):
 	duration = 0
-	while (change <-0.05):
+	global dir
+	global dur
+	while (change <-0.01):
 		time.sleep(1)
 		print("left")
 		duration = duration +10
@@ -116,8 +119,8 @@ try:
       #print(pot);
       #print(pre_pot);
       getpot()
-      directionR(change)
       directionL(change)
+      directionR(change)
 
       if (count == 2):
 	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
