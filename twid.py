@@ -42,6 +42,8 @@ count = 0;
 duration = 0;
 change  = 0.0;
 pre_pot = 0.0;
+place = 3
+stop =0
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
@@ -61,20 +63,25 @@ def getpot():
 	print (" this is change",change)
 	return change
 def direction (change):
+	global place
 	global count
 	global dir
-	if (change > 0.05):
+	if (change > 0.01):
+		if (len(master)-1)==0:
+			master.append(place)
+			place =count+1
 		print("right")
 		#dir.popleft()
-		dir = dir[1:]
-		dir.append(1)
+		master.append(1)
 		count = 0
-	elif (change <-0.05):
+	elif (change <-0.01):
+		if (len(master)-1)==1:
+			master.append(place)
+			place =place+1
 		print("left")
 		#dir.popleft()
-		dir = dir[1:]
-		dir.append(0)
-		count =0
+		master.append(0)
+		count = 0
 	elif (change<0.05 or change >-0.05 ):
 		print("no change")
 		count = count+1
@@ -115,7 +122,7 @@ GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
   pot = 0.0
-  while True:
+  while (stop ==0):
      # values[0] = mcp.read_adc(0)
       #pre_pot = pot
       #pot = potconvert(values[0],2)
@@ -123,18 +130,18 @@ try:
       #print(pot);
       #print(pre_pot);
       getpot()
-      directionL(change)
-      directionR(change)
+      #directionL(change)
+      #directionR(change)
 
       if (count == 2):
+	stop = 1
 	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
 		print('yay')
 		dir = [0]*16;
 	else :
 		print ('Failed')
 		dir = [0]*16;
-      print(dir)
-      print(dur)
+      print(master)
       time.sleep(1);
 	
 finally:
