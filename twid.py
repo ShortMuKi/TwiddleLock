@@ -39,7 +39,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 #Global Variables
 dur = [4]*16;
 code =[1,1,0];
-time = [2000,2000,2000]
+times = [2000,2000,2000]
 dir = [4]*16;
 values = [0]*8
 count = 0;
@@ -67,10 +67,12 @@ def getpot():
 	change = pot-pre_pot;
 #	print (" this is change",change)
 	return change
+
 def direction (change):
 	global place
 	global count
 	global dir
+
 	if (change > 0.01):
 		if (master[(len(master)-1)]==0):
 			master.append(place)
@@ -78,6 +80,7 @@ def direction (change):
 #		print("right")
 		master.append(1)
 		count = 0
+
 	elif (change <-0.01):
 		if (master[(len(master)-1)]==1):
 			master.append(place)
@@ -85,10 +88,12 @@ def direction (change):
 #		print("left")
 		master.append(0)
 		count = 0
+
 	elif (count ==10):
 		master.append(place)
 		place = place + 1;
 		count =count +1
+
 	elif (change<0.05 or change >-0.05 ):
 #		print("no change")
 		count = count+1
@@ -100,43 +105,36 @@ def direction (change):
 #GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
-  pot = 0.0
-  while (stop ==0):
-     # values[0] = mcp.read_adc(0)
-      #pre_pot = pot
-      #pot = potconvert(values[0],2)
-      #change = pot - pre_pot;
-      #print(pot);
-      #print(pre_pot);
-      getpot()
-      #directionL(change)
-      #directionR(change)
-      direction(change);
-      if (count == 20):
-	stop = 1
-	
-#      print(master)
-      if(stop ==1):
-	for i in range (2,place-1):
-		start = master.index(i)
-		finish = master.index(i+1)
-		duration = (finish -start)*100
-		dur=dur[1:]
-		dur.append(duration)
-		val = master[(finish -1)]
-		dir = dir[1:]
-		dir.append(val)
-	print(dir)
-	print(dur)
-	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and dur[(len(dur)-1)] == time[2] and  dur[(len(dur)-2)] == time[1] and dur[(len(dur)-3)] == time[0]):
-		print('yay')
-		dir = [0]*16;
-	else :
-		print ('Failed')
-		dir = [0]*16;
-	
-	
-      time.sleep(0.1);
-	
+	pot = 0.0
+	while (stop ==0):
+		getpot()
+		direction(change);
+		if (count == 20):
+			stop = 1
+			#print(master)
+			if(stop ==1):
+				for i in range (2,place-1):
+					start = master.index(i)
+					finish = master.index(i+1)
+					duration = (finish -start)*100
+					dur=dur[1:]
+					dur.append(int((round((duration/1000),2))*1000))
+					val = master[(finish -1)]
+					dir = dir[1:]
+					dir.append(val)
+				print(dir)
+				print(dur)
+				break
+
+				if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and 
+				round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
+					print('yay')
+					dir = [4]*16;
+					dur = [0]*16;
+				else :
+					print ('Failed')
+					dir = [4]*16;
+					dur = [0]*16;
+		time.sleep(0.1)
 finally:
     GPIO.cleanup()
