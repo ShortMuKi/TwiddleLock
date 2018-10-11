@@ -52,6 +52,17 @@ stop =0
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
+def sorty(list):
+	for z in range((len(list))-1,0,-1):
+		max=0
+		for p in range(1,z+1):
+			if list[p] > list[max]:
+				max = p
+		solong = list[z]
+		list[z] = list[max]
+		list[max] = solong
+	return list
+
 def potconvert(Vals,dec):
 	volts = (Vals*3.3/float(1023))
 	volts = round(volts,dec)
@@ -127,7 +138,7 @@ try:
 					dir.append(val)
 				print(dir)
 				print(dur)
-				sorte = sorted(dur)
+				sorte = sorty(dur)
 				print(sorte)
 				break
 
