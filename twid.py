@@ -46,6 +46,10 @@ change  = 0;
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
+def potconvert(Vals,dec):
+	volts = (Vals*3.3/float(1023))
+	volts = round(volts,dec)
+
 def pot():
 	global values
 	global pot
@@ -55,9 +59,6 @@ def pot():
 	pot = potconvert(values([0],2));
 	change = pot -pre_pot;
 
-def potconvert(Vals,dec):
-	volts = (Vals*3.3/float(1023))
-	volts = round(volts,dec)
 
 def direction (change):
 	global count
