@@ -97,14 +97,16 @@ def direction (change):
 	elif (change<0.05 or change >-0.05 ):
 #		print("no change")
 		count = count+1
-#def s(channel):
-#	pygame.mixer.music.play()
-#	while pygame.mixer.music.get_busy() == True:
-#		continue
+def s(channel):
+	global begin
+	begin = 1
 
-#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
+	begin = 0
+	while (begin == 0):
+		time.sleep(0.01)
 	pot = 0.0
 	while (stop ==0):
 		getpot()
