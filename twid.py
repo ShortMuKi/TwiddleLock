@@ -40,24 +40,25 @@ dir = [0]*16;
 values = [0]*8
 count = 0;
 duration = 0;
-pot = 0;
-pre_pot=0;
-change  = 0;
+change  = 0.0;
+pre_pot = 0.1;
+int(pre_pot)
 #direction =[0]
 # 0 is a left movement 
 # 1 is a right movement
 def potconvert(Vals,dec):
 	volts = (Vals*3.3/float(1023))
 	volts = round(volts,dec)
-
-def pot():
+	return volts
+def getpot():
 	global values
+	global change
 	global pot
 	global pre_pot
-	global change 
+	pre_pot = pot; 
 	values[0] = mcp.read_adc(0);
-	pot = potconvert(values([0],2));
-	change = pot -pre_pot;
+	pot = potconvert(values[0],2);
+	change = pot-pre_pot;
 
 
 def direction (change):
@@ -81,9 +82,10 @@ def direction (change):
 def directionR (change):
 	duration = 0
 	while (change > 0.05):
-		delay (0.01)
+		time.sleep(1)
+		print("right")
 		duration  = duration + 10
-		pot()
+		getpot()
 	if (duration > 0):
 		dir = dir[1:]
 		dir.append(1)
@@ -93,9 +95,10 @@ def directionR (change):
 def directionL (change):
 	duration = 0
 	while (change <-0.05):
-		delay(0.01)
+		time.sleep(1)
+		print("left")
 		duration = duration +10
-		pot()
+		getpot()
 	if (duration > 0):
 		dir = dir[1:]
 		dir.append(0)
@@ -104,7 +107,7 @@ def directionL (change):
 #GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
-  #pot = 0
+  pot = 0.0
   while True:
      # values[0] = mcp.read_adc(0)
       #pre_pot = pot
@@ -112,9 +115,9 @@ try:
       #change = pot - pre_pot;
       #print(pot);
       #print(pre_pot);
-      pot()
-      directionR(change);
-      directionL(change);
+      getpot()
+      directionR(change)
+      directionL(change)
 
       if (count == 2):
 	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
