@@ -8,8 +8,8 @@ import sys
 import subprocess as sp
 
 GPIO.setmode(GPIO.BCM)
-pygame.mixer.init()
-pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
+#pygame.mixer.init()
+#pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
 
 #pin Definition
 
@@ -37,11 +37,12 @@ GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
 #Global Variables
-dur = [0]*16;
+dur = [4]*16;
 code =[1,1,0];
-dir = [0]*16;
+dir = [4]*16;
 values = [0]*8
 count = 0;
+master =[2]
 duration = 0;
 change  = 0.0;
 pre_pot = 0.0;
@@ -63,67 +64,39 @@ def getpot():
 	values[0] = mcp.read_adc(0);
 	pot = potconvert(values[0],2);
 	change = pot-pre_pot;
-	print (" this is change",change)
+#	print (" this is change",change)
 	return change
 def direction (change):
 	global place
 	global count
 	global dir
 	if (change > 0.01):
-		if (len(master)-1)==0:
+		if (master[(len(master)-1)]==0):
 			master.append(place)
-			place =count+1
-		print("right")
-		#dir.popleft()
+			place =place+1
+#		print("right")
 		master.append(1)
 		count = 0
 	elif (change <-0.01):
-		if (len(master)-1)==1:
+		if (master[(len(master)-1)]==1):
 			master.append(place)
 			place =place+1
-		print("left")
-		#dir.popleft()
+#		print("left")
 		master.append(0)
 		count = 0
+	elif (count ==10):
+		master.append(place)
+		place = place + 1;
+		count =count +1
 	elif (change<0.05 or change >-0.05 ):
-		print("no change")
+#		print("no change")
 		count = count+1
-def directionR (change):
-	duration = 0
-	global dir
-	global dur
-	while (change > 0.01):
-		time.sleep(1)
-		print("right")
-		duration  = duration + 10
-		getpot()
-	if (duration > 0):
-		dir = dir[1:]
-		dir.append(1)
-		dur = dur[1:]
-		dur.append(duration)
+#def s(channel):
+#	pygame.mixer.music.play()
+#	while pygame.mixer.music.get_busy() == True:
+#		continue
 
-def directionL(change):
-	duration = 0
-	global dir
-	global dur
-	while (change <-0.01):
-		time.sleep(1)
-		print("left")
-		duration = duration +10
-		getpot()
-	if (duration > 0):
-		dir = dir[1:]
-		dir.append(0)
-		dur = dur[1:]
-		dur.append(duration)
-		
-def s(channel):
-	pygame.mixer.music.play()
-	while pygame.mixer.music.get_busy() == True:
-		continue
-
-GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
   pot = 0.0
@@ -137,8 +110,8 @@ try:
       getpot()
       #directionL(change)
       #directionR(change)
-
-      if (count == 2):
+      direction(change);
+      if (count == 20):
 	stop = 1
 	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
 		print('yay')
@@ -146,18 +119,20 @@ try:
 	else :
 		print ('Failed')
 		dir = [0]*16;
-      print(master)
-      if(stop ==1)
-	for i in range (2,place):
+#      print(master)
+      if(stop ==1):
+	for i in range (2,place-1):
 		start = master.index(i)
 		finish = master.index(i+1)
 		duration = (finish -start)*100
 		dur=dur[1:]
 		dur.append(duration)
-		val = master[(finsh -1)]
+		val = master[(finish -1)]
 		dir = dir[1:]
 		dir.append(val)
-      time.sleep(0.01);
+	print(dir)
+	print(dur)
+      time.sleep(0.1);
 	
 finally:
     GPIO.cleanup()
