@@ -118,7 +118,8 @@ try:
 					finish = master.index(i+1)
 					duration = (finish -start)*100
 					dur=dur[1:]
-					dur.append(int((round((duration/1000),2))*1000))
+					dur.append(duration)
+					#dur.append(int((round((duration/1000),2))*1000))
 					val = master[(finish -1)]
 					dir = dir[1:]
 					dir.append(val)
