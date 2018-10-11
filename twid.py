@@ -107,7 +107,11 @@ def directionL(change):
 		dir.append(0)
 		dur = dur[1:]
 		dur.append(duration)
-#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+		
+def s(channel):
+	os.system('Apple Pay Success Sound Effect.wav')
+
+GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
   pot = 0.0
