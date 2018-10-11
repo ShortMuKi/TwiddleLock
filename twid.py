@@ -18,7 +18,8 @@ SPICS = 8
 # pin numbers switch
 
 start = 19
-
+locked = 26
+unlocked = 21
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
 GPIO.setup(SPIMISO, GPIO.IN)
@@ -26,7 +27,9 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
-GPIO.setup(start, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -62,8 +65,8 @@ def direction (change):
 		count = count+1
 
 
-def s(channel):
-	GPIO.add_event_detect(st, GPIO.FALLING, callback=s, bouncetime=200)	
+
+GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
   pot = 0
@@ -71,7 +74,7 @@ try:
       values[0] = mcp.read_adc(0)
       pre_pot = pot
       pot = potconvert(values[0],2)
-      change = pot - pre_pot; 
+      change = pot - pre_pot;
       #print(pot);
       #print(pre_pot);
       direction(change);
@@ -83,7 +86,7 @@ try:
 		print ('Failed')
 		dir = [0]*16;
       print(dir)
-      time.sleep(1);			
+      time.sleep(1);
 
 finally:
     GPIO.cleanup()
