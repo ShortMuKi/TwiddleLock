@@ -128,7 +128,7 @@ try:
 		dir.append(val)
 	print(dir)
 	print(dur)
-	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0]):
+	if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and dur[(len(dur)-1)] == time[2] and  dur[(len(dur)-2)] == time[1] and dur[(len(dur)-3)] == time[0]):
 		print('yay')
 		dir = [0]*16;
 	else :
