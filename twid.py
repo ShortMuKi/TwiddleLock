@@ -39,6 +39,7 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 #Global Variables
 dur = [4]*16;
 code =[1,1,0];
+time = [2000,2000,2000]
 dir = [4]*16;
 values = [0]*8
 count = 0;
