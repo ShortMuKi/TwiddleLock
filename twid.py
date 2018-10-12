@@ -12,17 +12,16 @@ GPIO.setmode(GPIO.BCM)
 #pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
 
 #pin Definition
-
 SPICLK = 11
 SPIMISO = 9 
 SPIMOSI = 10
 SPICS = 8
 
 # pin numbers switch
-
 start = 19
 locked = 26
 unlocked = 21
+
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
 GPIO.setup(SPIMISO, GPIO.IN)
@@ -49,9 +48,10 @@ change  = 0.0;
 pre_pot = 0.0;
 place = 3
 stop =0
-#direction =[0]
+sercure  = 1;
 # 0 is a left movement 
 # 1 is a right movement
+
 def sorty(list):
 	for z in range((len(list))-1,0,-1):
 		max=0
@@ -132,7 +132,6 @@ try:
 					duration = (finish -start)*100
 					dur=dur[1:]
 					dur.append(duration)
-					#dur.append(int((round((duration/1000),2))*1000))
 					val = master[(finish -1)]
 					dir = dir[1:]
 					dir.append(val)
@@ -142,8 +141,8 @@ try:
 				print(sorte)
 				break
 
-				if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and 
-				round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
+				if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+				round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
 					print('yay')
 					dir = [4]*16;
 					dur = [0]*16;
