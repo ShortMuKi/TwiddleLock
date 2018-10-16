@@ -48,7 +48,7 @@ change  = 0.0;
 pre_pot = 0.0;
 place = 3
 stop =0
-sercure  = 1;
+secure  = 1;
 # 0 is a left movement 
 # 1 is a right movement
 
@@ -140,7 +140,7 @@ try:
 				sorte = sorty(dur)
 				print(sorte)
 				break
-				if (sercure ==1):
+				if (secure ==1):
 					if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 					round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
 						print('yay')
@@ -151,7 +151,15 @@ try:
 						dir = [4]*16;
 						dur = [0]*16;
 				elif (secure ==0):
-					
+					if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+					round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
+						print('yay')
+						dir = [4]*16;
+						dur = [0]*16;
+					else :
+						print ('Failed')
+						dir = [4]*16;
+						dur = [0]*16;
 		time.sleep(0.1)
 finally:
     GPIO.cleanup()
