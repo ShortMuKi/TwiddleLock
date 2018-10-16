@@ -21,6 +21,7 @@ SPICS = 8
 start = 19
 locked = 26
 unlocked = 21
+secure = 
 
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -29,9 +30,9 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
-GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
-GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(start,   GPIO.OUT)
+GPIO.setup(locked,  GPIO.OUT)
+GPIO.setup(unlocked,GPIO.OUT)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -49,6 +50,7 @@ pre_pot = 0.0;
 place = 3
 stop =0
 secure  = 1;
+lightCount = 0;
 # 0 is a left movement 
 # 1 is a right movement
 
@@ -146,6 +148,9 @@ try:
 						print('yay')
 						dir = [4]*16;
 						dur = [0]*16;
+						GPIO.output(21,1)
+						time.sleep(2)
+						GPIO.output(21,0)
 					else :
 						print ('Failed')
 						dir = [4]*16;
@@ -156,6 +161,9 @@ try:
 						print('yay')
 						dir = [4]*16;
 						dur = [0]*16;
+						GPIO.output(21,1)
+						time.sleep(2)
+						GPIO.output(21,0)
 					else :
 						print ('Failed')
 						dir = [4]*16;
