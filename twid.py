@@ -21,7 +21,7 @@ SPICS = 8
 start = 19
 locked = 26
 unlocked = 21
-secure = 
+secure = 27
 
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -33,6 +33,7 @@ GPIO.setup(SPICS, GPIO.OUT)
 GPIO.setup(start,   GPIO.OUT)
 GPIO.setup(locked,  GPIO.OUT)
 GPIO.setup(unlocked,GPIO.OUT)
+GPI0.setup(secure,  GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -117,6 +118,7 @@ def s(channel):
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
+while (1)
 	begin = 0
 	while (begin == 0):
 		time.sleep(0.01)
@@ -153,10 +155,12 @@ try:
 						GPIO.output(unlocked,1)
 						time.sleep(2)
 						GPIO.output(unlocked,0)
+						break
 					else :
 						print ('Failed')
 						dir = [4]*16;
 						dur = [0]*16;
+						break
 				elif (secure ==0):
 					dir = sorty(dir);
 					dur = sorty(dur);
@@ -169,10 +173,19 @@ try:
 						GPIO.output(unlocked,1)
 						time.sleep(2)
 						GPIO.output(unlocked,0)
+						break
 					else :
 						print ('Failed')
 						dir = [4]*16;
 						dur = [0]*16;
+						break
+			stop = 0
+			place = 2
+			break
+		break
+
+		
+			
 		time.sleep(0.1)
 finally:
     GPIO.cleanup()
