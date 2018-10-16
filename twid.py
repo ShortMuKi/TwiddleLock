@@ -122,6 +122,7 @@ try:
 		time.sleep(0.01)
 	pot = 0.0
 	while (stop ==0):
+		GPIO.output(locked,1)
 		getpot()
 		direction(change);
 		if (count == 20):
@@ -148,22 +149,26 @@ try:
 						print('yay')
 						dir = [4]*16;
 						dur = [0]*16;
-						GPIO.output(21,1)
+						GPIO.output(locked,0)
+						GPIO.output(unlocked,1)
 						time.sleep(2)
-						GPIO.output(21,0)
+						GPIO.output(unlocked,0)
 					else :
 						print ('Failed')
 						dir = [4]*16;
 						dur = [0]*16;
 				elif (secure ==0):
+					dir = sorty(dir);
+					dur = sorty(dur);
 					if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 					round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
 						print('yay')
 						dir = [4]*16;
 						dur = [0]*16;
-						GPIO.output(21,1)
+						GPIO.output(locked,0)
+						GPIO.output(unlocked,1)
 						time.sleep(2)
-						GPIO.output(21,0)
+						GPIO.output(unlocked,0)
 					else :
 						print ('Failed')
 						dir = [4]*16;
