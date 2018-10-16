@@ -21,7 +21,7 @@ SPICS = 8
 start = 19
 locked = 26
 unlocked = 21
-secure = 27
+sec = 27
 
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -33,7 +33,7 @@ GPIO.setup(SPICS, GPIO.OUT)
 GPIO.setup(start,   GPIO.IN ,pull_up_down =GPIO.PUD_DOWN)
 GPIO.setup(locked,  GPIO.OUT)
 GPIO.setup(unlocked,GPIO.OUT)
-GPIO.setup(secure,  GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup(sec,  GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -114,8 +114,16 @@ def direction (change):
 def s(channel):
 	global begin
 	begin = 1
+	
+def change_sec(channel):
+	global secure
+	if ( secure == 1):
+		secure = 0
+	elif (secure == 0):
+		secure = 1
 
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+GPIO.add_event_detect(sec, GPIO.FALLING, callback=change_sec, bouncetime=200)
 
 try:
 	while (1):
@@ -164,6 +172,7 @@ try:
 					elif (secure ==0):
 						dir = sorty(dir);
 						dur = sorty(dur);
+						code = sorty(code)
 						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
 							print('yay')
