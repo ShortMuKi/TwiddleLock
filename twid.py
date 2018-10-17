@@ -108,18 +108,20 @@ def direction (change):
 	elif (change<0.05 or change >-0.05 ):
 #		print("no change")
 		count = count+1
-def s(channel):
-	global begin
-	begin = 1
+#def s(channel):
+#	global begin
+#	begin = 1
 
-GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
 	while(1):
 		begin = 0
 		while (begin == 0):
-			print('poes')
-			time.sleep(0.01)
+			if( GPIO.input(start) == False):
+				begin = 1
+			else:
+				time.sleep(0.01)
 		pot = 0.0
 		while (stop ==0):
 			getpot()
