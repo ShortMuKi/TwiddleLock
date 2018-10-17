@@ -8,7 +8,7 @@ import sys
 import subprocess as sp
 
 pygame.init()
-pygame.mixer.music.load("sad")
+
 GPIO.setmode(GPIO.BCM)
 #pygame.mixer.init()
 #pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
@@ -176,6 +176,7 @@ try:
 						else :
 							print(secure)
 							print ('Failed')
+							pygame.mixer.music.load("sad")
 							pygame.mixer.music.play()
 							dir = [4]*16;
 							dur = [0]*16;
@@ -194,6 +195,8 @@ try:
 						else :
 							print(secure)
 							print ('Failed')
+							pygame.mixer.music.load("hap")
+							pygame.mixer.music.play()
 							dir = [4]*16;
 							dur = [0]*16;
 			
