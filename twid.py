@@ -21,7 +21,6 @@ SPICS = 8
 start = 19
 locked = 26
 unlocked = 21
-sec = 27
 
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -30,10 +29,9 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
-GPIO.setup(start,   GPIO.IN ,pull_up_down =GPIO.PUD_DOWN)
-GPIO.setup(locked,  GPIO.OUT)
-GPIO.setup(unlocked,GPIO.OUT)
-GPIO.setup(sec,  GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -50,8 +48,7 @@ change  = 0.0;
 pre_pot = 0.0;
 place = 3
 stop =0
-secure  = 1;
-lightCount = 0;
+sercure  = 1;
 # 0 is a left movement 
 # 1 is a right movement
 
@@ -114,85 +111,45 @@ def direction (change):
 def s(channel):
 	global begin
 	begin = 1
-	
-def change_sec(channel):
-	global secure
-	if ( secure == 1):
-		secure = 0
-	elif (secure == 0):
-		secure = 1
 
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
-GPIO.add_event_detect(sec, GPIO.FALLING, callback=change_sec, bouncetime=200)
 
 try:
-	while (1):
-		begin = 0
-		while (begin == 0):
-			time.sleep(0.01)
-		pot = 0.0
-		while (stop ==0):
-			GPIO.output(locked,1)
-			getpot()
-			direction(change);
-			if (count == 20):
-				stop = 1
-				#print(master)
-				if(stop ==1):
-					for i in range (2,place-1):
-						start = master.index(i)
-						finish = master.index(i+1)
-						duration = (finish -start)*100
-						dur=dur[1:]
-						dur.append(duration)
-						val = master[(finish -1)]
-						dir = dir[1:]
-						dir.append(val)
-					print(dir)
-					print(dur)
-					sorte = sorty(dur)
-					print(sorte)
-					break
-					if (secure ==1):
-						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
-							print('yay')
-							dir = [4]*16;
-							dur = [0]*16;
-							GPIO.output(locked,0)
-							GPIO.output(unlocked,1)
-							time.sleep(2)
-							GPIO.output(unlocked,0)
-							break
-						else :
-							print ('Failed')
-							dir = [4]*16;
-							dur = [0]*16;
-							break
-					elif (secure ==0):
-						dir = sorty(dir);
-						dur = sorty(dur);
-						code = sorty(code)
-						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0]):
-							print('yay')
-							dir = [4]*16;
-							dur = [0]*16;
-							GPIO.output(locked,0)
-							GPIO.output(unlocked,1)
-							time.sleep(2)
-							GPIO.output(unlocked,0)
-							break
-						else :
-							print ('Failed')
-							dir = [4]*16;
-							dur = [0]*16;
-							break
-				stop = 0
-				place = 2
+	begin = 0
+	while (begin == 0):
+		time.sleep(0.01)
+	pot = 0.0
+	while (stop ==0):
+		getpot()
+		direction(change);
+		if (count == 20):
+			stop = 1
+			#print(master)
+			if(stop ==1):
+				for i in range (2,place-1):
+					start = master.index(i)
+					finish = master.index(i+1)
+					duration = (finish -start)*100
+					dur=dur[1:]
+					dur.append(duration)
+					val = master[(finish -1)]
+					dir = dir[1:]
+					dir.append(val)
+				print(dir)
+				print(dur)
+				sorte = sorty(dur)
+				print(sorte)
 				break
-			break
 
-			time.sleep(0.1)
+				if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+				round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
+					print('yay')
+					dir = [4]*16;
+					dur = [0]*16;
+				else :
+					print ('Failed')
+					dir = [4]*16;
+					dur = [0]*16;
+		time.sleep(0.1)
 finally:
     GPIO.cleanup()
