@@ -17,10 +17,11 @@ SPIMISO = 9
 SPIMOSI = 10
 SPICS = 8
 
-# pin numbers switch
+# pin numbers 
 start = 19
 locked = 26
 unlocked = 21
+sec = 27
 
 #SET ADC Pins
 GPIO.setup(SPIMOSI, GPIO.OUT)
@@ -30,8 +31,11 @@ GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
 GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
-GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(sec,  GPIO.IN, pull_up_down = GPIO.PUD_UP)
+
+# Ouput Pins
+GPIO.setup(locked,  GPIO.OUT)
+GPIO.setup(unlocked,GPIO.OUT)
 
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
@@ -52,6 +56,7 @@ sercure  = 1;
 # 0 is a left movement 
 # 1 is a right movement
 
+# sort function
 def sorty(list):
 	for z in range((len(list))-1,0,-1):
 		max=0
@@ -108,11 +113,23 @@ def direction (change):
 	elif (change<0.05 or change >-0.05 ):
 #		print("no change")
 		count = count+1
+
+# interrupt to change begin variable
 def s(channel):
 	global begin
 	begin = 1
-
+	
+#interrupt to change secure and unsecure mode	
+def change_sec(channel):
+	global secure
+	if ( secure == 1):
+		secure = 0
+	elif (secure == 0):
+		secure = 1
+		
+		
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+GPIO.add_event_detect(sec, GPIO.FALLING, callback=change_sec, bouncetime=200)
 
 try:
 	while(1):
@@ -142,17 +159,27 @@ try:
 					print(dur)
 					sorte = sorty(dur)
 					print(sorte)
-					break
-
-					if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-					round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
-						print('yay')
-						dir = [4]*16;
-						dur = [0]*16;
-					else :
-						print ('Failed')
-						dir = [4]*16;
-						dur = [0]*16;
+					#break
+					if (secure == 1):
+						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
+							print('yay')
+							dir = [4]*16;
+							dur = [0]*16;
+						else :
+							print ('Failed')
+							dir = [4]*16;
+							dur = [0]*16;
+					elif(secure == 0):
+						dur = sorte
+						if (round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 0:
+							print('yay')
+							dir = [4]*16;
+							dur = [0]*16;
+						else :
+							print ('Failed')
+							dir = [4]*16;
+							dur = [0]*16;
 			
 			time.sleep(0.1)
 		stop = 0
