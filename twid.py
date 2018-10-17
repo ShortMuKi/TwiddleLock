@@ -185,7 +185,7 @@ try:
 							dir = [4]*16;
 							dur = [0]*16;
 			
-			#time.sleep(0.1)
+			time.sleep(0.1)
 		stop = 0
 finally:
     GPIO.cleanup()
