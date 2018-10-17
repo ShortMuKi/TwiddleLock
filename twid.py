@@ -117,8 +117,10 @@ GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 try:
 	while(1):
 		begin = 0
+		print(begin)
 		while (begin == 0):
 			time.sleep(0.01)
+		print(begin)
 		pot = 0.0
 		while (stop ==0):
 			getpot()
