@@ -29,7 +29,7 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
-GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+#GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -116,6 +116,7 @@ def direction (change):
 
 try:
 	while(1):
+		GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 		begin = 0
 		while (begin == 0):
 			if( GPIO.input(start) == False):
