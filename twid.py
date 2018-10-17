@@ -52,7 +52,7 @@ change  = 0.0;
 pre_pot = 0.0;
 place = 3
 stop =0
-sercure  = 1;
+secure  = 1;
 # 0 is a left movement 
 # 1 is a right movement
 
