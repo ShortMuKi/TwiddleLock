@@ -118,6 +118,7 @@ try:
 	while(1):
 		begin = 0
 		while (begin == 0):
+			print('poes')
 			time.sleep(0.01)
 		pot = 0.0
 		while (stop ==0):
@@ -151,6 +152,7 @@ try:
 						print ('Failed')
 						dir = [4]*16;
 						dur = [0]*16;
+			
 			time.sleep(0.1)
 finally:
     GPIO.cleanup()
