@@ -1,4 +1,4 @@
-import pygame
+import winsound
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 import time
@@ -174,6 +174,7 @@ try:
 						else :
 							print(secure)
 							print ('Failed')
+							winsound.PlaySound("sad",winsound.SND_FILENAME)
 							dir = [4]*16;
 							dur = [0]*16;
 					elif(secure == 0):
