@@ -163,20 +163,24 @@ try:
 					if (secure == 1):
 						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
+							print(secure)
 							print('yay')
 							dir = [4]*16;
 							dur = [0]*16;
 						else :
+							print(secure)
 							print ('Failed')
 							dir = [4]*16;
 							dur = [0]*16;
 					elif(secure == 0):
 						dur = sorte
 						if (round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 0:
+							print(secure)
 							print('yay')
 							dir = [4]*16;
 							dur = [0]*16;
 						else :
+							print(secure)
 							print ('Failed')
 							dir = [4]*16;
 							dur = [0]*16;
