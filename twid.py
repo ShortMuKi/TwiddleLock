@@ -1,4 +1,4 @@
-import winsound
+import pygame
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 import time
@@ -7,6 +7,8 @@ import spidev
 import sys
 import subprocess as sp
 
+pygame.init()
+pygame.mixer.music.load("sad")
 GPIO.setmode(GPIO.BCM)
 #pygame.mixer.init()
 #pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
@@ -174,7 +176,7 @@ try:
 						else :
 							print(secure)
 							print ('Failed')
-							winsound.PlaySound("sad",winsound.SND_FILENAME)
+							pygame.mixer.music.play()
 							dir = [4]*16;
 							dur = [0]*16;
 					elif(secure == 0):
