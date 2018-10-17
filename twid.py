@@ -115,41 +115,42 @@ def s(channel):
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
-	begin = 0
-	while (begin == 0):
-		time.sleep(0.01)
-	pot = 0.0
-	while (stop ==0):
-		getpot()
-		direction(change);
-		if (count == 20):
-			stop = 1
+	while(1):
+		begin = 0
+		while (begin == 0):
+			time.sleep(0.01)
+		pot = 0.0
+		while (stop ==0):
+			getpot()
+			direction(change);
+			if (count == 20):
+				stop = 1
 			#print(master)
-			if(stop ==1):
-				for i in range (2,place-1):
-					start = master.index(i)
-					finish = master.index(i+1)
-					duration = (finish -start)*100
-					dur=dur[1:]
-					dur.append(duration)
-					val = master[(finish -1)]
-					dir = dir[1:]
-					dir.append(val)
-				print(dir)
-				print(dur)
-				sorte = sorty(dur)
-				print(sorte)
-				break
+				if(stop ==1):
+					for i in range (2,place-1):
+						start = master.index(i)
+						finish = master.index(i+1)
+						duration = (finish -start)*100
+						dur=dur[1:]
+						dur.append(duration)
+						val = master[(finish -1)]
+						dir = dir[1:]
+						dir.append(val)
+					print(dir)
+					print(dur)
+					sorte = sorty(dur)
+					print(sorte)
+					break
 
-				if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-				round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
-					print('yay')
-					dir = [4]*16;
-					dur = [0]*16;
-				else :
-					print ('Failed')
-					dir = [4]*16;
-					dur = [0]*16;
-		time.sleep(0.1)
+					if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+					round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
+						print('yay')
+						dir = [4]*16;
+						dur = [0]*16;
+					else :
+						print ('Failed')
+						dir = [4]*16;
+						dur = [0]*16;
+			time.sleep(0.1)
 finally:
     GPIO.cleanup()
