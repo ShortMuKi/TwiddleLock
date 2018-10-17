@@ -29,7 +29,7 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 #Button pin setups
-#GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
+GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 GPIO.setup(locked,  GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(unlocked,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -108,21 +108,17 @@ def direction (change):
 	elif (change<0.05 or change >-0.05 ):
 #		print("no change")
 		count = count+1
-#def s(channel):
-#	global begin
-#	begin = 1
+def s(channel):
+	global begin
+	begin = 1
 
-#GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
+GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 
 try:
 	while(1):
-		GPIO.setup(start,   GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 		begin = 0
 		while (begin == 0):
-			if( GPIO.input(start) == False):
-				begin = 1
-			else:
-				time.sleep(0.01)
+			time.sleep(0.01)
 		pot = 0.0
 		while (stop ==0):
 			getpot()
