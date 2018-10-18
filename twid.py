@@ -173,7 +173,7 @@ try:
 					print(sorte)
 					#break
 					if (secure == 1):
-						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+						if( dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == times[0] ):
 							#print(secure)
 							print('yay')
@@ -200,7 +200,7 @@ try:
 					elif(secure == 0):
 						dur = sorte
 						combcode = sorty(times)
-						if ( (round((dur[(len(dur)-1)]/1000),0)*1000 == combcode[2]) and  (round((dur[(len(dur)-2)]/1000),0)*1000 == combcode[1]) and ((round((dur[(len(dur)-3)]/1000),0)*1000) == combcode[0])):
+						if ( round((dur[(len(dur)-1)]/1000),0)*1000 == combcode[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == combcode[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == combcode[0]):
 							#print(secure)
 							print('yay')
 							pygame.mixer.music.load("hap")
