@@ -173,6 +173,8 @@ try:
 					print(sorte)
 					#break
 					if (secure == 1):
+						rounded = [round((dur[(len(dur)-3)]/1000),0)*1000,round((dur[(len(dur)-2)]/1000),0)*1000,round((dur[(len(dur)-1)]/1000),0)*1000]
+						print rounded
 						if( dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
 						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == times[0] ):
 							#print(secure)
