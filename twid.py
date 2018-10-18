@@ -42,10 +42,10 @@ GPIO.setup(unlocked,GPIO.OUT)
 mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPIMISO)
 
 #Global Variables
-dur = [4]*16;
+dur = [9]*16;
 code =[1,1,0];
 times = [2000,2000,2000]
-dir = [4]*16;
+dir = [9]*16;
 values = [0]*8
 count = 0;
 master =[2]
@@ -91,7 +91,7 @@ def direction (change):
 	global count
 	global dir
 
-	if (change > 0.01):
+	if (change > 0.02):
 		if (master[(len(master)-1)]==0):
 			master.append(place)
 			place =place+1
@@ -99,7 +99,7 @@ def direction (change):
 		master.append(1)
 		count = 0
 
-	elif (change <-0.01):
+	elif (change <-0.02):
 		if (master[(len(master)-1)]==1):
 			master.append(place)
 			place =place+1
@@ -112,7 +112,7 @@ def direction (change):
 		place = place + 1;
 		count =count +1
 
-	elif (change<0.05 or change >-0.05 ):
+	elif (change<0.02 or change >-0.02 ):
 #		print("no change")
 		count = count+1
 
@@ -120,26 +120,36 @@ def direction (change):
 def s(channel):
 	global begin
 	begin = 1
-	
+
 #interrupt to change secure and unsecure mode	
 def change_sec(channel):
 	global secure
 	if ( secure == 1):
 		secure = 0
+		print("You are now in unsecure mode")
 	elif (secure == 0):
 		secure = 1
-		
-		
+		print("You are now in secure mode")
+
 GPIO.add_event_detect(start, GPIO.FALLING, callback=s, bouncetime=200)
 GPIO.add_event_detect(sec, GPIO.FALLING, callback=change_sec, bouncetime=200)
 
 try:
 	while(1):
+		GPIO.output(locked,1)
+		master =[2]
+		place = 3
+		#stop = 1
 		begin = 0
 		print(begin)
+		print("Press to start")
 		while (begin == 0):
 			time.sleep(0.01)
+			stop = 0;
 		print(begin)
+		print(dur)
+		print(dir)
+		print("enter your Passcode")
 		pot = 0.0
 		while (stop ==0):
 			getpot()
@@ -164,46 +174,54 @@ try:
 					#break
 					if (secure == 1):
 						if (dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == times[0])and sercure == 1:
-							print(secure)
+						(round((dur[(len(dur)-1)]/1000),0)*1000) == times[2] and  (round((dur[(len(dur)-2)]/1000),0)*1000) == times[1] and (round((dur[(len(dur)-3)]/1000),0)*1000) == times[0])and sercure == 1:
+							#print(secure)
 							print('yay')
 							pygame.mixer.music.load("hap")
 							pygame.mixer.music.play()
 							dir = [4]*16
 							dur = [0]*16
+							master = [2]
 							GPIO.output(locked,0)
 							GPIO.output(unlocked,1)
 							time.sleep(2)
 							GPIO.output(unlocked,0)
+							GPIO.output(locked,1)
+							#time.sleep(2)
 						else :
-							print(secure)
+							#print(secure)
 							print ('Failed')
 							pygame.mixer.music.load("sad")
 							pygame.mixer.music.play()
 							dir = [4]*16;
+							master = [2]
 							dur = [0]*16;
+
 					elif(secure == 0):
 						dur = sorte
 						combcode = sorty(times)
-						if (round((dur[(len(dur)-1)]/1000),0)*1000 == combcode[2] and  round((dur[(len(dur)-2)]/1000),2)*1000 == combcode[1] and round((dur[(len(dur)-3)]/1000),2)*1000 == combcode[0]):
-							print(secure)
+						if ( (round((dur[(len(dur)-1)]/1000),0)*1000) == combcode[2] and  (round((dur[(len(dur)-2)]/1000),0)*1000) == combcode[1] and (round((dur[(len(dur)-3)]/1000),0)*1000) == combcode[0]):
+							#print(secure)
 							print('yay')
 							pygame.mixer.music.load("hap")
 							pygame.mixer.music.play()
 							dir = [4]*16;
 							dur = [0]*16;
+							master = [2]
 							GPIO.output(locked,0)
 							GPIO.output(unlocked,1)
 							time.sleep(2)
 							GPIO.output(unlocked,0)
+							GPIO.output(locked,1)
 						else :
-							print(secure)
+							#print(secure)
 							print ('Failed')
 							pygame.mixer.music.load("sad")
 							pygame.mixer.music.play()
-							dir = [4]*16;
-							dur = [0]*16;
-			
+							dir = [9]*16;
+							dur = [9]*16;
+							master=[2]
+
 			time.sleep(0.1)
 		stop = 0
 finally:
