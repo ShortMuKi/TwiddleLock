@@ -10,8 +10,6 @@ import subprocess as sp
 pygame.init()
 
 GPIO.setmode(GPIO.BCM)
-#pygame.mixer.init()
-#pygame.mixer.load("Apple Pay Succes Sound Effect.wav")
 
 #pin Definition
 SPICLK = 11
@@ -55,6 +53,7 @@ pre_pot = 0.0;
 place = 3
 stop =0
 secure  = 1;
+sens = 0.02
 # 0 is a left movement 
 # 1 is a right movement
 
@@ -91,37 +90,67 @@ def direction (change):
 	global count
 	global dir
 
-	if (change > 0.02):
+	if (change > sens):					#right
 		if (master[(len(master)-1)]==0):
 			master.append(place)
 			place =place+1
-#		print("right")
 		master.append(1)
 		count = 0
 
-	elif (change <-0.02):
+	elif (change <-sens):					#left
 		if (master[(len(master)-1)]==1):
 			master.append(place)
 			place =place+1
-#		print("left")
 		master.append(0)
 		count = 0
 
-	elif (count ==10):
+	elif (count ==10):					# 1 second timer for new entry
 		master.append(place)
 		place = place + 1;
 		count =count +1
 
-	elif (change<0.02 or change >-0.02 ):
-#		print("no change")
+	elif (change<sens or change >-sens):			# No Change
 		count = count+1
+
+
+def compare():
+	global secure
+	global dur
+	global code
+	global times
+	global dir
+	correct = 0
+	Tcorrect = 0
+	for m in range (0,len(dur)-1):
+		rounded[m] = (round(dur[m]*1000,0)/1000)
+		timesR[m] = (round(times[m]*1000,0)/1000)
+	if secure == 1:
+		for  k in range(0,len(code)-1):
+			if code[k] == dir[(len(dir)-k-1)]:
+				correct  = correct + 1
+			if timesR[k] == rounded[(len(rounded)-k-1)]:
+				Tcorrect = Tcorrect + 1
+		if ((Tcorrect + correct) == 2*len(code)):
+			return 1
+		else:
+			return 0
+	if secure == 0:
+		sorted_timeR = sorty(timesR)
+		sorted_rounded = sorty(rounded)
+		for k in range (0,len(code)-1):
+			if sorted_time[k] == sorted_rounded[(len(sorted_rounded)-k-1)]:
+				correctT = correcT + 1
+		if correctT ==len(code):
+			return 1
+		else:
+			return 0
 
 # interrupt to change begin variable
 def s(channel):
 	global begin
 	begin = 1
 
-#interrupt to change secure and unsecure mode	
+#interrupt to change secure and unsecure mode
 def change_sec(channel):
 	global secure
 	if ( secure == 1):
@@ -139,7 +168,6 @@ try:
 		GPIO.output(locked,1)
 		master =[2]
 		place = 3
-		#stop = 1
 		begin = 0
 #		print(begin)
 		print("Press to start")
@@ -172,57 +200,60 @@ try:
 					sorte = sorty(dur)
 					#print(sorte)
 					#break
-					if (secure == 1):
-						rounded = [round((dur[(len(dur)-3)]/1000),0)*1000,round((dur[(len(dur)-2)]/1000),0)*1000,round((dur[(len(dur)-1)]/1000),0)*1000]
-						#print (rounded)
-						if( dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
-						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == times[0] ):
-							#print(secure)
-							print('yay')
-							pygame.mixer.music.load("hap")
-							pygame.mixer.music.play()
-							dir = [4]*16
-							dur = [0]*16
-							master = [2]
-							GPIO.output(locked,0)
-							GPIO.output(unlocked,1)
-							time.sleep(2)
-							GPIO.output(unlocked,0)
-							GPIO.output(locked,1)
-							#time.sleep(2)
-						else :
-							#print(secure)
-							print ('Failed')
-							pygame.mixer.music.load("sad")
-							pygame.mixer.music.play()
-							dir = [4]*16;
-							master = [2]
-							dur = [0]*16;
+#					if (secure == 1):
+#						rounded = [round((dur[(len(dur)-3)]/1000),0)*1000,round((dur[(len(dur)-2)]/1000),0)*1000,round((dur[(len(dur)-1)]/1000),0)*1000]
+#						#print (rounded)
+#						if( dir[(len(dir)-1)] == code[2] and  dir[(len(dir)-2)] == code[1] and dir[(len(dir)-3)] == code[0] and
+#						round((dur[(len(dur)-1)]/1000),0)*1000 == times[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == times[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == times[0] ):
+#							#print(secure)
 
-					elif(secure == 0):
-						dur = sorte
-						combcode = sorty(times)
-						if ( round((dur[(len(dur)-1)]/1000),0)*1000 == combcode[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == combcode[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == combcode[0]):
+					check = compare()
+					if (check == 1):
+						print('yay')
+						pygame.mixer.music.load("hap")
+						pygame.mixer.music.play()
+						dir = [4]*16
+						dur = [0]*16
+						master = [2]
+						GPIO.output(locked,0)
+						GPIO.output(unlocked,1)
+						time.sleep(2)
+						GPIO.output(unlocked,0)
+						GPIO.output(locked,1)
+
+					else :
 							#print(secure)
-							print('yay')
-							pygame.mixer.music.load("hap")
-							pygame.mixer.music.play()
-							dir = [4]*16;
-							dur = [0]*16;
-							master = [2]
-							GPIO.output(locked,0)
-							GPIO.output(unlocked,1)
-							time.sleep(2)
-							GPIO.output(unlocked,0)
-							GPIO.output(locked,1)
-						else :
-							#print(secure)
-							print ('Failed')
-							pygame.mixer.music.load("sad")
-							pygame.mixer.music.play()
-							dir = [9]*16;
-							dur = [9]*16;
-							master=[2]
+						print ('Failed')
+						pygame.mixer.music.load("sad")
+						pygame.mixer.music.play()
+						dir = [4]*16;
+						master = [2]
+						dur = [0]*16;
+
+#					elif(secure == 0):
+#						dur = sorte
+#						combcode = sorty(times)
+#						if ( round((dur[(len(dur)-1)]/1000),0)*1000 == combcode[2] and  round((dur[(len(dur)-2)]/1000),0)*1000 == combcode[1] and round((dur[(len(dur)-3)]/1000),0)*1000 == combcode[0]):
+#							#print(secure)
+#							print('yay')
+#							pygame.mixer.music.load("hap")
+#							pygame.mixer.music.play()
+#							dir = [4]*16;
+#							dur = [0]*16;
+#							master = [2]
+#							GPIO.output(locked,0)
+#							GPIO.output(unlocked,1)
+#							time.sleep(2)
+#							GPIO.output(unlocked,0)
+#							GPIO.output(locked,1)
+#						else :
+#							#print(secure)
+#							print ('Failed')
+#							pygame.mixer.music.load("sad")
+#							pygame.mixer.music.play()
+#							dir = [9]*16;
+#							dur = [9]*16;
+#							master=[2]
 
 			time.sleep(0.1)
 		stop = 0
