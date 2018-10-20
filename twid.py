@@ -171,6 +171,9 @@ GPIO.add_event_detect(sec, GPIO.FALLING, callback=change_sec, bouncetime=200)
 
 try:
 	while(1):
+		if len(code) != len(times):
+			print(" There is an error in your password")
+			break
 		GPIO.output(locked,1)
 		master =[2]
 		place = 3
@@ -183,9 +186,9 @@ try:
 #		print(begin)
 #		print(dur)
 #		print(dir)
-		if len(code) != len(times):
-			print(" There is an error in your password")
-			break
+		#if len(code) != len(times):
+		#	print(" There is an error in your password")
+		#	break
 		print("enter your Passcode")
 		pot = 0.0
 		while (stop ==0):
