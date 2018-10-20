@@ -41,8 +41,8 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 
 #Global Variables
 dur = [9]*16;
-code =[1,1,0];
-times = [2000,2000,2000]
+code =[1,1,0,0,0,1,1,0,0,1,1,1,1,1,0,0];
+times = [2000,2000,2000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000,1000]
 dir = [9]*16;
 values = [0]*8
 count = 0;
@@ -123,6 +123,8 @@ def compare():
 	timesR = [0]*len(times)
 	correct = 0
 	Tcorrect = 0
+	sorted_rounded[]
+	sorted_timeR = []
 	for m in range (0,len(times)-1):
 		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
 		timesR[m] = (round(times[m]*1000,0)/1000)
