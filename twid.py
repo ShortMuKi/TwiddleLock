@@ -122,6 +122,7 @@ def compare():
 	rounded = [0]*len(times)
 	timesR = [0]*len(times)
 	correct = 0
+	correctT = 0
 	Tcorrect = 0
 	sorted_rounded = []
 	sorted_timeR = []
