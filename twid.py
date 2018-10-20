@@ -123,7 +123,7 @@ def compare():
 	timesR = [0]*len(times)
 	correct = 0
 	Tcorrect = 0
-	sorted_rounded[]
+	sorted_rounded = []
 	sorted_timeR = []
 	for m in range (0,len(times)-1):
 		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
