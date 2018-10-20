@@ -124,6 +124,7 @@ def compare():
 	correct = 0
 	Tcorrect = 0
 	sorted_rounded = []
+	sorted_time = []
 	sorted_timeR = []
 	for m in range (0,len(times)-1):
 		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
