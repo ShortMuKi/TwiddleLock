@@ -119,8 +119,8 @@ def compare():
 	global code
 	global times
 	global dir
-	rounded = []
-	timesR = []
+	rounded = [0]*len(times)
+	timesR = [0]*len(times)
 	correct = 0
 	Tcorrect = 0
 	for m in range (0,len(times)-1):
