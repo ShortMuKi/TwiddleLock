@@ -123,8 +123,8 @@ def compare():
 	timesR = []
 	correct = 0
 	Tcorrect = 0
-	for m in range (0,len(dur)-1):
-		rounded[m] = (round(dur[m]*1000,0)/1000)
+	for m in range (0,len(times)-1):
+		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
 		timesR[m] = (round(times[m]*1000,0)/1000)
 	if secure == 1:
 		for  k in range(0,len(code)-1):
