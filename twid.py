@@ -145,7 +145,7 @@ def compare():
 		sorted_rounded = sorty(rounded)
 		for k in range (0,len(times)-1):
 			if sorted_timeR[k] == sorted_rounded[k]:
-				correctT = correcT + 1
+				correctT = correctT + 1
 		if correctT ==len(code):
 			return 1
 		else:
