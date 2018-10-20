@@ -183,6 +183,9 @@ try:
 #		print(begin)
 #		print(dur)
 #		print(dir)
+		if len(code) != len(times):
+			print(" There is an error in your password")
+		
 		print("enter your Passcode")
 		pot = 0.0
 		while (stop ==0):
