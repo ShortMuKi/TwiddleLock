@@ -126,11 +126,12 @@ def compare():
 	for m in range (0,len(times)-1):
 		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
 		timesR[m] = (round(times[m]*1000,0)/1000)
+	rounded.reverse()
 	if secure == 1:
 		for  k in range(0,len(code)-1):
-			if code[k] == dir[(len(dir)-k-1)]:
+			if code[k] == dir[(16-len(code)+k)]:
 				correct  = correct + 1
-			if timesR[k] == rounded[(len(rounded)-k-1)]:
+			if timesR[k] == rounded[k]:
 				Tcorrect = Tcorrect + 1
 		if ((Tcorrect + correct) == 2*len(code)):
 			return 1
@@ -140,7 +141,7 @@ def compare():
 		sorted_timeR = sorty(timesR)
 		sorted_rounded = sorty(rounded)
 		for k in range (0,len(code)-1):
-			if sorted_time[k] == sorted_rounded[(len(sorted_rounded)-k-1)]:
+			if sorted_time[k] == sorted_rounded[k]:
 				correctT = correcT + 1
 		if correctT ==len(code):
 			return 1
