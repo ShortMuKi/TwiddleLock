@@ -120,6 +120,7 @@ def compare():
 	global times
 	global dir
 	rounded = []
+	timesR = []
 	correct = 0
 	Tcorrect = 0
 	for m in range (0,len(dur)-1):
