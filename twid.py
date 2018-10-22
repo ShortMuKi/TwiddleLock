@@ -41,8 +41,8 @@ mcp = Adafruit_MCP3008.MCP3008(clk=SPICLK,   cs=SPICS,   mosi=SPIMOSI,  miso=SPI
 
 #Global Variables
 dur = [9]*16;
-code =[1,1,0];
-times = [2000,2000,2000]
+code =[1,1,0,0,1];
+times = [2000,2000,1000,4000,4000]
 dir = [9]*16;
 values = [0]*8
 count = 0;
@@ -126,27 +126,29 @@ def compare():
 	Tcorrect = 0
 	sorted_rounded = []
 	sorted_timeR = []
-	for m in range (0,len(times)-1):
-		rounded[m] = (round(dur[(len(dur)-1-m)]*1000,0)/1000)
-		timesR[m] = (round(times[m]*1000,0)/1000)
+	for m in range (0,len(times)):
+		rounded[m] = (round(dur[(len(dur)-1-m)]/1000,0)*1000)
+		timesR[m] = (round(times[m]/1000,0)*1000)
 	rounded.reverse()
+#	print(rounded)
+#	print (timesR)
 	if secure == 1:
-		for  k in range(0,len(code)-1):
+		for  k in range(0,len(code)):
 			if code[k] == dir[(16-len(code)+k)]:
 				correct  = correct + 1
 			if timesR[k] == rounded[k]:
 				Tcorrect = Tcorrect + 1
-		if ((Tcorrect + correct) == 2*len(code)):
+		if ((Tcorrect + correct) == (2*len(code))):
 			return 1
 		else:
 			return 0
 	if secure == 0:
 		sorted_timeR = sorty(timesR)
 		sorted_rounded = sorty(rounded)
-		for k in range (0,len(times)-1):
+		for k in range (0,len(times)):
 			if sorted_timeR[k] == sorted_rounded[k]:
 				correctT = correctT + 1
-		if correctT ==len(code):
+		if correctT == (len(code)):
 			return 1
 		else:
 			return 0
@@ -207,8 +209,8 @@ try:
 						val = master[(finish -1)]
 						dir = dir[1:]
 						dir.append(val)
-					#print(dir)
-					#print(dur)
+					print(dir)
+					print(dur)
 					sorte = sorty(dur)
 					#print(sorte)
 					#break
