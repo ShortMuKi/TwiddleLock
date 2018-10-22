@@ -209,8 +209,8 @@ try:
 						val = master[(finish -1)]
 						dir = dir[1:]
 						dir.append(val)
-					print(dir)
-					print(dur)
+					#print(dir)
+					#print(dur)
 					sorte = sorty(dur)
 					#print(sorte)
 					#break
